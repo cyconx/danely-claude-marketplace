@@ -1,0 +1,10 @@
+{
+  "name": "danely-platform",
+  "version": "0.1.0",
+  "description": "Shared Danely MCP agent conventions. Load before writing through any danely-* bundle.",
+  "author": {
+    "name": "Cyconx",
+    "email": "hello@cyconx.com"
+  },
+  "keywords": ["danely", "mcp", "platform", "governance"]
+}

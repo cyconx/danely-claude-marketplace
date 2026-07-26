@@ -1,0 +1,18 @@
+{
+  "name": "danely-claude-marketplace",
+  "owner": {
+    "name": "Cyconx",
+    "email": "hello@cyconx.com"
+  },
+  "version": "0.1.0",
+  "description": "Claude Code plugins for the Danely agent experience — platform conventions, bundle skills, and (later) hooks/scripts for identity, retry, and pre-flight checks.",
+  "plugins": [
+    {
+      "name": "danely-platform",
+      "source": "./plugins/danely-platform",
+      "description": "Shared Danely MCP conventions: identity quad, Latest vs Fixed, inspect_actions pre-flight, async command verification, idempotency.",
+      "version": "0.1.0",
+      "keywords": ["danely", "mcp", "governance", "platform"]
+    }
+  ]
+}
