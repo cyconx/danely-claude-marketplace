@@ -1,0 +1,52 @@
+name: GitFlow gate
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  gitflow:
+    name: Enforce GitFlow PR topology
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source → target branch rules
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          echo "PR: ${HEAD} → ${BASE}"
+
+          if [ "$BASE" = "main" ]; then
+            if [ "$HEAD" != "develop" ]; then
+              echo "::error::main only accepts PRs from develop (got head '${HEAD}')."
+              echo "Open feature PRs against develop; promote with develop → main."
+              exit 1
+            fi
+            echo "OK: release PR develop → main"
+            exit 0
+          fi
+
+          if [ "$BASE" = "develop" ]; then
+            case "$HEAD" in
+              main)
+                echo "::error::Do not open main → develop. Cut feature/* from develop instead."
+                exit 1
+                ;;
+              develop)
+                echo "::error::Invalid PR develop → develop."
+                exit 1
+                ;;
+              feature/*|fix/*|chore/*|docs/*|hotfix/*)
+                echo "OK: ${HEAD} → develop"
+                exit 0
+                ;;
+              *)
+                echo "::error::develop only accepts PRs from feature/*, fix/*, chore/*, docs/*, or hotfix/* (got '${HEAD}')."
+                exit 1
+                ;;
+            esac
+          fi
+
+          echo "::error::Unexpected base branch '${BASE}'."
+          exit 1

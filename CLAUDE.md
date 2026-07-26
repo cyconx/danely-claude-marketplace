@@ -1,5 +1,6 @@
 # Maintaining danely-claude-marketplace
 
+- **Branching:** GitFlow-style — see [docs/git-flow.md](docs/git-flow.md). Cut `feature/*` from `develop`; open PRs to `develop`; promote with `develop` → `main`. Do not push directly to `main` or `develop`.
 - Skills are **thin**: point at MCP `about` / `inspect_actions` / help corpus; do not fork platform docs.
 - When shipping a change, bump `version` in **all three** places to the same value:
   1. `.claude-plugin/marketplace.json` (top-level `version`)
