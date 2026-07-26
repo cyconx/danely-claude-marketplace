@@ -4,14 +4,16 @@
     "name": "Cyconx",
     "email": "hello@cyconx.com"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Claude Code plugins for the Danely agent experience — platform conventions, live APIM MCP bundles, and (later) hooks/scripts for identity, retry, and pre-flight checks.",
+  "homepage": "https://github.com/cyconx/danely-claude-marketplace",
+  "repository": "https://github.com/cyconx/danely-claude-marketplace",
   "plugins": [
     {
       "name": "danely-platform",
       "source": "./plugins/danely-platform",
       "description": "Shared Danely MCP conventions + six APIM connectors (content, decision, policy, risk, workflow, user-admin).",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "keywords": ["danely", "mcp", "governance", "platform", "apim"]
     }
   ]

@@ -5,6 +5,8 @@ Claude Code **marketplace** for the Danely agent experience (internal staff test
 This repo is the client-side packaging layer (skills + MCP wiring).  
 **Platform truth** for every MCP client remains the generated Danely MCP surface and ADR-256 conventions — this marketplace must not become a second source of truth.
 
+**Private repo.** Staff need GitHub access to `cyconx/danely-claude-marketplace` (org membership or an explicit collaborator grant). Claude Code installs via the staff member's own git credentials — public visibility is not required.
+
 ## Install (Claude Code)
 
 ```text
@@ -15,7 +17,7 @@ This repo is the client-side packaging layer (skills + MCP wiring).
 That installs:
 
 1. The `platform-conventions` skill  
-2. Six HTTP MCP servers pointing at **APIM** (tenant perimeter) — OAuth via the DCR shim (no static bearer in the config)
+2. Six HTTP MCP servers pointing at **production APIM** (`dnly-apim.azure-api.net`) — OAuth via the DCR shim (no static bearer in the config). This is not environment-agnostic; local Aspire uses different URLs.
 
 On first use, Claude Code should prompt for CIAM (Entra External ID) login per connector. Use a **provisioned customer identity**, not workforce — workforce hits `/mcp/operator/{bundle}` (read-only) and 401s on the tenant authoring routes.
 
@@ -48,10 +50,11 @@ Details: Cyconx repo `docs/operations/mcp-claude-code-onboarding.md` and `docs/o
 
 ```text
 .claude-plugin/marketplace.json
+LICENSE
 plugins/
   danely-platform/
     .claude-plugin/plugin.json
-    .mcp.json                          # six APIM bundle URLs
+    .mcp.json                          # six prod-APIM bundle URLs
     skills/platform-conventions/SKILL.md
 ```
 
@@ -72,8 +75,8 @@ plugins/
 |------|---------|
 | Now | `danely-platform` — conventions skill + APIM MCP wiring |
 | Next | Per-bundle skills |
-| Later | Hooks/scripts (pre-flight, Latest/Fixed retry, wait/poll) |
+| Later | Hooks/scripts (pre-flight, Latest/Fixed retry, wait/poll) — move instructions currently in the skill into enforced hooks |
 
 ## Licence
 
-Proprietary — Cyconx / Danely. Public so Claude Code can fetch the marketplace.
+Proprietary — Cyconx / Danely. See [LICENSE](LICENSE).

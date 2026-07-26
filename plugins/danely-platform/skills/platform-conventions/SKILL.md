@@ -11,7 +11,10 @@ description: >
 You are working against **Danely** via the live Azure APIM MCP bundles
 (`danely-content`, `danely-decision`, `danely-policy`, `danely-risk`,
 `danely-workflow`, `danely-user-admin` → `https://dnly-apim.azure-api.net/mcp/…`).
-Danely is the system of record. Prefer MCP tools over guessing from memory.
+
+That hostname is the **production APIM perimeter** (not Aspire / not a per-env
+switch). Danely is the system of record — prefer MCP tools over guessing from
+memory.
 
 Auth is OAuth/CIAM at the connector — if tools 401, reconnect `/mcp` after a
 fresh login; do not invent static bearer headers.
@@ -19,15 +22,21 @@ fresh login; do not invent static bearer headers.
 ## Identity (every aggregate)
 
 - `domainId` — stable identity (use as `targetId` on references)
-- `branchId` — line of versions (required with `Latest` mode)
+- `branchId` — line of versions
 - `versionId` — one snapshot; **moves on every successful command**
 
 After any command, take the new `versionId` from the result before the next write on that aggregate.
 
 ## Targeting writes — Latest vs Fixed
 
-- **Latest** — mutate the head. Always carry `branchId` with `targetId` (= domainId). Omitting `branchId` often fails with "requires BranchId".
-- **Fixed** — mutate a pinned `versionId`. If the head has moved, you get a stale-target error; use `headVersionId` / `suggestedRetry` from the error — do **not** invent a new plan.
+- **Latest (top-level tool args)** — mutate the branch head via `domainId`. Supply
+  `branchId` when you know it (safer under multi-branch); when omitted, the server
+  may resolve the highest head across branches. Prefer carrying `branchId` once you
+  have it from a prior result.
+- **Latest (nested `{X}Reference` fields)** — **always** include `branchId` with
+  `targetId`. Omitting it fails validation (`requires branchId` / `requires BranchId`).
+- **Fixed** — mutate a pinned `versionId`. If the head has moved, use
+  `headVersionId` / `suggestedRetry` from the error — do **not** invent a new plan.
 
 Do not use `LatestPublished` as a **write** target; it is a reference/read mode only.
 
@@ -37,9 +46,15 @@ Before any `transition` or versioning write:
 
 1. Call `inspect_actions` on the current version.
 2. Fire the trigger **only if** it appears in the returned action descriptors / permitted set.
-3. Prefer copying `suggestedInput` when present rather than hand-rolling the payload.
+3. Prefer copying `suggestedInput` when present — but **fill in placeholders**
+   (e.g. nested Account `branchId` for `mode: Latest`); suggestedInput is a skeleton,
+   not always a complete valid payload.
 
-A runtime capability denial after a write is a process failure — the check above should have caught it.
+`inspect_actions` eliminates the type/state-invalid failure class (skipping it can
+cost multi-second round trips just to be told "not permitted"). It is **not** a
+complete permission oracle: claim-, ownership-, and capability-based denials can
+still reject a call that passed pre-flight. Handle those gracefully — do not treat
+presence in `actionDescriptors` as a guarantee of success.
 
 ## Async commands
 
@@ -47,6 +62,7 @@ Command results are not always terminal:
 
 - statuses include `completed` | `pending` | `failed` | `error` | `declined`
 - on `pending`, poll `get_command_status` with the returned `messageStatusId` until a terminal state (or a timeout)
+- on `declined` / `user_declined`, a destructive elicitation was not confirmed — the command never reached the backend; do not treat this as a domain failure
 - on timeout / hang, **stop polling** and escalate (optionally search known-issues first) — do not loop forever
 - after `completed`, confirm with a read (`get_by_version` / equivalent) when the next step depends on the new head
 
@@ -54,6 +70,13 @@ Command results are not always terminal:
 
 - Re-submitting the **same real-world act** (retry after timeout, duplicate send) → **reuse the same `idempotencyKey` GUID**
 - A genuinely new act → mint a new key
+
+**Known sharp edge (live APIM):** replaying a create with the same key currently
+returns an opaque upstream/internal error instead of the original status handle.
+The write is usually **not** duplicated, but you cannot recover the ids from the
+replay response — fall back to `find_text` / lineage if the first response was lost.
+Do not mint a new key thinking the first call failed unless you have verified no
+aggregate was created.
 
 ## Discovery tax (do this once per session, not every turn)
 

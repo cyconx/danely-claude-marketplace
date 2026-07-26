@@ -1,10 +1,12 @@
 {
   "name": "danely-platform",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Shared Danely MCP agent conventions plus the six live APIM bundle connectors (content, decision, policy, risk, workflow, user-admin).",
   "author": {
     "name": "Cyconx",
     "email": "hello@cyconx.com"
   },
-  "keywords": ["danely", "mcp", "platform", "governance"]
+  "homepage": "https://github.com/cyconx/danely-claude-marketplace",
+  "repository": "https://github.com/cyconx/danely-claude-marketplace",
+  "keywords": ["danely", "mcp", "governance", "platform", "apim"]
 }
