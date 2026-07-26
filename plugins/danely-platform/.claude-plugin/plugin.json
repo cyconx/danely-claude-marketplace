@@ -1,7 +1,7 @@
 {
   "name": "danely-platform",
-  "version": "0.1.0",
-  "description": "Shared Danely MCP agent conventions. Load before writing through any danely-* bundle.",
+  "version": "0.2.0",
+  "description": "Shared Danely MCP agent conventions plus the six live APIM bundle connectors (content, decision, policy, risk, workflow, user-admin).",
   "author": {
     "name": "Cyconx",
     "email": "hello@cyconx.com"

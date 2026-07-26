@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "danely-content": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/content"
+    },
+    "danely-decision": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/decision"
+    },
+    "danely-policy": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/policy"
+    },
+    "danely-risk": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/risk"
+    },
+    "danely-workflow": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/workflow"
+    },
+    "danely-user-admin": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/user-admin"
+    }
+  }
+}

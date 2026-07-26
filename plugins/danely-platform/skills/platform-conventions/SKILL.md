@@ -8,8 +8,13 @@ description: >
 
 # Danely platform conventions
 
-You are working against **Danely** via one or more `danely-*` MCP servers.
+You are working against **Danely** via the live Azure APIM MCP bundles
+(`danely-content`, `danely-decision`, `danely-policy`, `danely-risk`,
+`danely-workflow`, `danely-user-admin` → `https://dnly-apim.azure-api.net/mcp/…`).
 Danely is the system of record. Prefer MCP tools over guessing from memory.
+
+Auth is OAuth/CIAM at the connector — if tools 401, reconnect `/mcp` after a
+fresh login; do not invent static bearer headers.
 
 ## Identity (every aggregate)
 

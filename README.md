@@ -1,9 +1,9 @@
 # danely-claude-marketplace
 
-Claude Code **marketplace** for the Danely agent experience.
+Claude Code **marketplace** for the Danely agent experience (internal staff testing against the live Azure APIM perimeter).
 
-This repo is the client-side packaging layer (skills, later hooks/scripts/agents).  
-**Platform truth** for every MCP client (including source-less ones) remains the generated Danely MCP surface and [ADR-256](https://github.com/cyconx/Cyconx) conventions — this marketplace must not become a second source of truth.
+This repo is the client-side packaging layer (skills + MCP wiring).  
+**Platform truth** for every MCP client remains the generated Danely MCP surface and ADR-256 conventions — this marketplace must not become a second source of truth.
 
 ## Install (Claude Code)
 
@@ -12,33 +12,68 @@ This repo is the client-side packaging layer (skills, later hooks/scripts/agents
 /plugin install danely-platform@danely-claude-marketplace
 ```
 
-Enable auto-update for the marketplace under `/plugin` → Marketplaces if you want pulls on new tags.
+That installs:
+
+1. The `platform-conventions` skill  
+2. Six HTTP MCP servers pointing at **APIM** (tenant perimeter) — OAuth via the DCR shim (no static bearer in the config)
+
+On first use, Claude Code should prompt for CIAM (Entra External ID) login per connector. Use a **provisioned customer identity**, not workforce — workforce hits `/mcp/operator/{bundle}` (read-only) and 401s on the tenant authoring routes.
+
+Enable marketplace auto-update under `/plugin` → Marketplaces if you want pulls on new tags.
+
+## Claude settings — custom connectors (same six URLs)
+
+If you prefer (or need) to register connectors manually — Claude **Settings → Connectors → Add custom connector** — add one connector per bundle:
+
+| Bundle | URL |
+|--------|-----|
+| Content | `https://dnly-apim.azure-api.net/mcp/content` |
+| Decision | `https://dnly-apim.azure-api.net/mcp/decision` |
+| Policies | `https://dnly-apim.azure-api.net/mcp/policy` |
+| Risks | `https://dnly-apim.azure-api.net/mcp/risk` |
+| Workflow | `https://dnly-apim.azure-api.net/mcp/workflow` |
+| Users | `https://dnly-apim.azure-api.net/mcp/user-admin` |
+
+Do **not** paste a static API key/header for these URLs when using the live DCR/OAuth path — complete the browser login when prompted. After token refresh, reconnect via `/mcp` (or re-open the connector) so the session picks up new tokens.
+
+### Identity prerequisite (admin, once per staff tester)
+
+1. Create a **CIAM customer** user in External ID (`danely.ciamlogin.com`).  
+2. Provision the Danely `Account` (`create_account` with that `oid`) and any needed grants via `/mcp/user-admin` as an admin.  
+3. Staff sign in with that customer account when the connector OAuth runs.
+
+Details: Cyconx repo `docs/operations/mcp-claude-code-onboarding.md` and `docs/operations/mcp-dcr-shim-configuration-guide.md`.
 
 ## Layout
 
 ```text
-.claude-plugin/marketplace.json     # registry Claude Code reads
+.claude-plugin/marketplace.json
 plugins/
-  danely-platform/                  # shared conventions (v0.1)
+  danely-platform/
     .claude-plugin/plugin.json
+    .mcp.json                          # six APIM bundle URLs
     skills/platform-conventions/SKILL.md
 ```
 
+## MCP server names (plugin)
+
+| Name in Claude | Path |
+|----------------|------|
+| `danely-content` | `/mcp/content` |
+| `danely-decision` | `/mcp/decision` |
+| `danely-policy` | `/mcp/policy` |
+| `danely-risk` | `/mcp/risk` |
+| `danely-workflow` | `/mcp/workflow` |
+| `danely-user-admin` | `/mcp/user-admin` |
+
 ## Roadmap (experiment)
 
-Aligned with the Danely agent-experience plan:
-
-| Step | Plugin / content |
-|------|------------------|
-| Now | `danely-platform` — conventions skill |
-| Next | Per-bundle skills (`danely-decision`, …) |
-| Later | Hooks + scripts (inspect→write pre-flight, Latest/Fixed retry, wait/poll) |
-| Later | Optional `.mcp.json` profiles for local Aspire / deployed MCP |
-
-## MCP servers
-
-This marketplace does **not** yet ship MCP connection config. Point Claude Code at your existing `danely-*` MCP servers (Aspire local or deployed) as you do today; the skill assumes those tools are available.
+| Step | Content |
+|------|---------|
+| Now | `danely-platform` — conventions skill + APIM MCP wiring |
+| Next | Per-bundle skills |
+| Later | Hooks/scripts (pre-flight, Latest/Fixed retry, wait/poll) |
 
 ## Licence
 
-Proprietary — Cyconx / Danely. Public for Claude Code marketplace fetch only.
+Proprietary — Cyconx / Danely. Public so Claude Code can fetch the marketplace.
