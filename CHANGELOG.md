@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- GitFlow-style branch workflow: `develop` integration branch, Actions gates for PR topology + version lockstep (`docs/git-flow.md`)
+
 ## 0.2.1
 
 - Skill accuracy pass from live APIM probes: nested vs top-level `branchId`,

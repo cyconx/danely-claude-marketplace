@@ -1,0 +1,28 @@
+name: Marketplace hygiene
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  versions-lockstep:
+    name: Plugin versions match
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert marketplace / plugin versions are identical
+        run: |
+          set -euo pipefail
+          TOP=$(jq -r '.version' .claude-plugin/marketplace.json)
+          ENTRY=$(jq -r '.plugins[] | select(.name=="danely-platform") | .version' .claude-plugin/marketplace.json)
+          PLUGIN=$(jq -r '.version' plugins/danely-platform/.claude-plugin/plugin.json)
+          echo "marketplace top-level: $TOP"
+          echo "marketplace plugin entry: $ENTRY"
+          echo "plugin.json: $PLUGIN"
+          if [ "$TOP" != "$ENTRY" ] || [ "$TOP" != "$PLUGIN" ]; then
+            echo "::error::Version lockstep broken — bump all three places to the same value (see CLAUDE.md)."
+            exit 1
+          fi
+          echo "OK: all three versions are $TOP"

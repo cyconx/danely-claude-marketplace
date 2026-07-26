@@ -7,6 +7,8 @@ This repo is the client-side packaging layer (skills + MCP wiring).
 
 **Private repo.** Staff need GitHub access to `cyconx/danely-claude-marketplace` (org membership or an explicit collaborator grant). Claude Code installs via the staff member's own git credentials — public visibility is not required.
 
+**GitFlow-style branches:** work lands on `develop` via `feature/*` (etc.) PRs; `main` updates only when `develop` is promoted. See [docs/git-flow.md](docs/git-flow.md). Default branch for new work is `develop`.
+
 ## Install (Claude Code)
 
 ```text
