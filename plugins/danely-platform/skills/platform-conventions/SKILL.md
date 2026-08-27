@@ -11,7 +11,15 @@ description: >
 
 You are working against **Danely** via the live Azure APIM MCP bundles
 (`danely-content`, `danely-decision`, `danely-policy`, `danely-risk`,
-`danely-workflow`, `danely-user-admin` → `https://dnly-apim.azure-api.net/mcp/…`).
+`danely-service-management`, `danely-workflow`, `danely-user-admin` →
+`https://dnly-apim.azure-api.net/mcp/…`).
+
+These are the **tenant** bundles. The operator perimeter (`subscription`,
+`tenant-lifecycle`, `billing-ops`, `support`) is a different route family
+— `/mcp/operator/{slug}`, workforce Entra rather than CIAM — and is
+deliberately **not** shipped here. Do not reach for a tenant route with an
+operator slug: the perimeter filter hides the domain tools and you will read
+an empty list as a broken connector.
 
 **Connect to `danely-core` as well as the domain bundle(s) you need.** The
 cross-cutting tools — orientation, search, lineage, and the whole async command

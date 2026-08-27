@@ -12,7 +12,7 @@
     {
       "name": "danely-platform",
       "source": "./plugins/danely-platform",
-      "description": "Shared Danely MCP conventions + APIM connectors: core (always connect) plus content, decision, policy, risk, workflow, user-admin.",
+      "description": "Shared Danely MCP conventions + APIM tenant connectors: core (always connect) plus content, decision, policy, risk, service-management, workflow, user-admin.",
       "version": "0.3.0",
       "keywords": ["danely", "mcp", "governance", "platform", "apim"]
     }
