@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "danely-core": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/core"
+    },
     "danely-content": {
       "type": "http",
       "url": "https://dnly-apim.azure-api.net/mcp/content"
@@ -15,6 +19,10 @@
     "danely-risk": {
       "type": "http",
       "url": "https://dnly-apim.azure-api.net/mcp/risk"
+    },
+    "danely-service-management": {
+      "type": "http",
+      "url": "https://dnly-apim.azure-api.net/mcp/service-management"
     },
     "danely-workflow": {
       "type": "http",
