@@ -2,35 +2,35 @@
   "mcpServers": {
     "danely-core": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/core"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/core"
     },
     "danely-content": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/content"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/content"
     },
     "danely-decision": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/decision"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/decision"
     },
     "danely-policy": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/policy"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/policy"
     },
     "danely-risk": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/risk"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/risk"
     },
     "danely-service-management": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/service-management"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/service-management"
     },
     "danely-workflow": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/workflow"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/workflow"
     },
     "danely-user-admin": {
       "type": "http",
-      "url": "https://dnly-apim.azure-api.net/mcp/user-admin"
+      "url": "https://dnly-apim-002.azure-api.net/mcp/user-admin"
     }
   }
 }

@@ -12,7 +12,7 @@ description: >
 You are working against **Danely** via the live Azure APIM MCP bundles
 (`danely-content`, `danely-decision`, `danely-policy`, `danely-risk`,
 `danely-service-management`, `danely-workflow`, `danely-user-admin` →
-`https://dnly-apim.azure-api.net/mcp/…`).
+`https://dnly-apim-002.azure-api.net/mcp/…`).
 
 These are the **tenant** bundles. The operator perimeter (`subscription`,
 `tenant-lifecycle`, `billing-ops`, `support`) is a different route family
