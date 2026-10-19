@@ -19,7 +19,7 @@ This repo is the client-side packaging layer (skills + MCP wiring).
 That installs:
 
 1. The `platform-conventions` skill  
-2. Six HTTP MCP servers pointing at **production APIM** (`dnly-apim.azure-api.net`) — OAuth via the DCR shim (no static bearer in the config). This is not environment-agnostic; local Aspire uses different URLs.
+2. Six HTTP MCP servers pointing at **production APIM** (`dnly-apim-002.azure-api.net`) — OAuth via the DCR shim (no static bearer in the config). This is not environment-agnostic; local Aspire uses different URLs.
 
 On first use, Claude Code should prompt for CIAM (Entra External ID) login per connector. Use a **provisioned customer identity**, not workforce — workforce hits `/mcp/operator/{bundle}` (read-only) and 401s on the tenant authoring routes.
 
@@ -31,12 +31,12 @@ If you prefer (or need) to register connectors manually — Claude **Settings �
 
 | Bundle | URL |
 |--------|-----|
-| Content | `https://dnly-apim.azure-api.net/mcp/content` |
-| Decision | `https://dnly-apim.azure-api.net/mcp/decision` |
-| Policies | `https://dnly-apim.azure-api.net/mcp/policy` |
-| Risks | `https://dnly-apim.azure-api.net/mcp/risk` |
-| Workflow | `https://dnly-apim.azure-api.net/mcp/workflow` |
-| Users | `https://dnly-apim.azure-api.net/mcp/user-admin` |
+| Content | `https://dnly-apim-002.azure-api.net/mcp/content` |
+| Decision | `https://dnly-apim-002.azure-api.net/mcp/decision` |
+| Policies | `https://dnly-apim-002.azure-api.net/mcp/policy` |
+| Risks | `https://dnly-apim-002.azure-api.net/mcp/risk` |
+| Workflow | `https://dnly-apim-002.azure-api.net/mcp/workflow` |
+| Users | `https://dnly-apim-002.azure-api.net/mcp/user-admin` |
 
 Do **not** paste a static API key/header for these URLs when using the live DCR/OAuth path — complete the browser login when prompted. After token refresh, reconnect via `/mcp` (or re-open the connector) so the session picks up new tokens.
 

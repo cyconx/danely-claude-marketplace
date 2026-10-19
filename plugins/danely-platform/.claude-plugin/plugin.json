@@ -1,6 +1,6 @@
 {
   "name": "danely-platform",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Shared Danely MCP agent conventions plus the live APIM tenant bundle connectors: core (always connect) plus content, decision, policy, risk, service-management, workflow, user-admin.",
   "author": {
     "name": "Cyconx",
