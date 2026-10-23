@@ -7,5 +7,5 @@
   2. `.claude-plugin/marketplace.json` → `plugins[].version` for the plugin entry
   3. `plugins/*/…/plugin.json` → `version`
 - Prefer conventional commits (`feat:`, `fix:`) if/when Release Please CI is added; a CI assert that those three strings match is the natural lockstep guard.
-- `.mcp.json` points at **prod APIM only** (`dnly-apim-002.azure-api.net`) — not Aspire, not a per-env switch.
+- `.mcp.json` points at the **non-production APIM gateway only** (`dnly-apim-002.azure-api.net`, whose routes reach dev) — not production, not Aspire, not a per-env switch.
 - Never put secrets or tenant-specific data in skills.

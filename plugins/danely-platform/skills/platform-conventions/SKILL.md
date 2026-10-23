@@ -33,8 +33,9 @@ duplicate tool definition per extra connection: 96 of 112 at seven bundles.
 > as a hang rather than a missing tool. If a command never resolves, check you are
 > connected to `core` before diagnosing anything else.
 
-That hostname is the **production APIM perimeter** (not Aspire / not a per-env
-switch). Danely is the system of record — prefer MCP tools over guessing from
+That hostname is the **shared non-production APIM gateway**, and its MCP routes reach
+Danely's **dev** environment. It is not production (production gets its own gateway
+later), not Aspire, and not a per-environment switch. Danely is the system of record — prefer MCP tools over guessing from
 memory.
 
 Auth is OAuth/CIAM at the connector — if tools 401, reconnect `/mcp` after a

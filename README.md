@@ -19,22 +19,24 @@ This repo is the client-side packaging layer (skills + MCP wiring).
 That installs:
 
 1. The `platform-conventions` skill  
-2. Six HTTP MCP servers pointing at **production APIM** (`dnly-apim-002.azure-api.net`) — OAuth via the DCR shim (no static bearer in the config). This is not environment-agnostic; local Aspire uses different URLs.
+2. Eight HTTP MCP servers pointing at the **non-production APIM gateway** (`dnly-apim-002.azure-api.net`), whose routes reach the dev environment — OAuth via the DCR shim (no static bearer in the config). This is not environment-agnostic; local Aspire uses different URLs.
 
 On first use, Claude Code should prompt for CIAM (Entra External ID) login per connector. Use a **provisioned customer identity**, not workforce — workforce hits `/mcp/operator/{bundle}` (read-only) and 401s on the tenant authoring routes.
 
 Enable marketplace auto-update under `/plugin` → Marketplaces if you want pulls on new tags.
 
-## Claude settings — custom connectors (same six URLs)
+## Claude settings — custom connectors (same eight URLs)
 
 If you prefer (or need) to register connectors manually — Claude **Settings → Connectors → Add custom connector** — add one connector per bundle:
 
 | Bundle | URL |
 |--------|-----|
+| Core (always connect) | `https://dnly-apim-002.azure-api.net/mcp/core` |
 | Content | `https://dnly-apim-002.azure-api.net/mcp/content` |
 | Decision | `https://dnly-apim-002.azure-api.net/mcp/decision` |
 | Policies | `https://dnly-apim-002.azure-api.net/mcp/policy` |
 | Risks | `https://dnly-apim-002.azure-api.net/mcp/risk` |
+| Service management | `https://dnly-apim-002.azure-api.net/mcp/service-management` |
 | Workflow | `https://dnly-apim-002.azure-api.net/mcp/workflow` |
 | Users | `https://dnly-apim-002.azure-api.net/mcp/user-admin` |
 
